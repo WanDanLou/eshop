@@ -87,6 +87,7 @@ def change_password(request):
                 else:
                     now_user.set_password(cd['new_password1'])
                     now_user.save()
+                    auth.login(request, now_user)
                     messages.success(request, 'change successfully')
             else:
                 messages.error(request, 'old password wrong')

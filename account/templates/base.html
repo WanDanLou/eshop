@@ -14,6 +14,9 @@
     </div>
       <nav>
       <ul class="nav nav-pills pull-right">
+        <li role="presentation">
+          <a href="{% url 'index' %}">index</a>
+        </li>
       {% if user.is_authenticated %}
         <li role="presentation">
         <a href="{% url 'logout' %}">logout(<b>{{user.username}}</b>)</a>
