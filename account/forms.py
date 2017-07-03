@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile
+from .models import Profile,Product
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -27,3 +27,12 @@ class ChangePassworForm(forms.Form):
     old_password = forms.CharField(label = 'old password',widget=forms.PasswordInput)
     new_password1 = forms.CharField(label = 'new password',widget=forms.PasswordInput)
     new_password2 = forms.CharField(label = 'repeat new password',widget=forms.PasswordInput)
+
+class ProductCreateForm(forms.Form):
+        categoryname = forms.CharField(label = 'categoryname')
+        categoryslug = forms.CharField(label = 'categoryslug')
+        productname = forms.CharField(label = 'productname')
+        productslug = forms.CharField(label = 'productslug')
+        description = forms.CharField(label = 'description')
+        price = forms.DecimalField(label = 'price')
+        stock = forms.IntegerField(label = 'stock')
