@@ -1,8 +1,20 @@
 from django.contrib import admin
 from .models import Profile
-
+from .models import Category, Product
 # Register your models here.
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'photo', 'age', 'description', 'usertype')
+    list_display = ('name', 'photo', 'age', 'description')
 
 admin.site.register(Profile, ProfileAdmin)
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name', )}
+admin.site.register(Category, CategoryAdmin)
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'price', 'stock', 'available', 'created', 'updated')
+    list_filter = ('available', 'created', 'updated')
+    list_editable = ('price', 'stock', 'available')
+    prepopulated_fields = {'slug': ('name', )}
+admin.site.register(Product, ProductAdmin)

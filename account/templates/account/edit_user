@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div>
+    {% include 'messages.html' %}
+    <h1>Now edit your infomation</h1>
+      <form method='post' enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ user_form.as_p }}
+          {{ profile_form.as_p }}
+          <p><input type="submit" value="Save changes"></p>
+      </form>
+      <p>click here to  <a href="{% url "change_user_password" %}">change_password</a></p>
+  </div>
+{% endblock %}
