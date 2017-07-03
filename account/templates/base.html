@@ -14,8 +14,12 @@
     </div>
       <nav>
       <ul class="nav nav-pills pull-right">
-      <a href="{% url 'index' %}">index</a>
       {% if user.is_authenticated %}
+        {% if user.profile.usertype %}
+        <a href="{% url 'index' %}">index</a>
+        {% else %}
+        <a href="{{user.store.get_index_store_url}}">index</a>
+        {% endif %}
         <li role="presentation">
         <a href="{% url 'logout_user' %}">logout(<b>{{user.username}}</b>)</a>
         </li>
@@ -27,6 +31,7 @@
           {% endif %}
         </li>
       {% else %}
+      <a href="{% url 'index' %}">index</a>
         <p>
         <li role="presentation">
         <a href="{% url 'login_user' %}">login_user</a>

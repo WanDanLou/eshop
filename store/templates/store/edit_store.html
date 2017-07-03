@@ -3,12 +3,13 @@
   <div>
     {% include 'messages.html' %}
     <h1>Now edit your infomation</h1>
-      <form method='post' enctype="multipart/form-data">
+      <form method="post"action = "{% url 'edit_store' %}" enctype="multipart/form-data">
           {% csrf_token %}
           {{ user_form.as_p }}
           {{ store_form.as_p }}
           <p><input type="submit" value="Save changes"></p>
       </form>
-      <p>click here to  <a href="{% url "change_password_store" %}">change_password</a></p>
+      <p>click here to  <a href="{% url 'change_store_password' %}">change_password</a></p>
+      <p>click here to  <a href="{{store.get_index_store_url}}">index store</a></p>
   </div>
 {% endblock %}

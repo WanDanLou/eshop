@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+{% block content%}
+<div>
+  {% include 'messages.html' %}
+  <h1>Now add your Product</h1>
+    <form method="post" action = "{{store.get_add_product_url}}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <p><input type="submit" value="add"></p>
+    </form>
+    <p>click here to  <a href="{{store.get_index_store_url }}">return store</a></p>
+</div>
+{% endblock %}

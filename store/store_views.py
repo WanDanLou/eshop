@@ -1,14 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import LoginForm, RegisterForm, UserEditForm, StoreEditForm, ChangePassworForm
+from .store_forms import LoginForm, RegisterForm, UserEditForm, StoreEditForm, ChangePassworForm
 from .models import Store, Product
 from account.models import Profile
 from django.contrib import messages
 # Create your views here.
-def index(request):
-    return render(request, 'index.html')
+def index_store(request, store_slug):
+    store = get_object_or_404(Store, slug=store_slug)
+    return render(request, 'index_store.html', {'store':store})
 
 def login_store(request):
     if request.method == 'POST':
@@ -23,8 +24,9 @@ def login_store(request):
                         return render(request, 'store/login_store.html',
                                                 {'form': form, 'errors':"user is not store"})
                     else:
+                        store = get_object_or_404(Store, user=user)
                         auth.login(request, user)
-                        return render(request, 'index.html')
+                        return render(request, 'index_store.html', {'store':store})
                 else:
                     form = LoginErrorForm()
                     return render(request, 'store/login_store.html',
@@ -71,7 +73,7 @@ def register_store(request):
 @login_required
 def logout_store(request):
     auth.logout(request)
-    return render(request, 'index.html')
+    return redirecter('account:index.html')
 
 @login_required
 def edit_store(request):
@@ -81,16 +83,18 @@ def edit_store(request):
         if new_user_form.is_valid() and new_store_form.is_valid():
             new_user_form.save()
             new_store_form.save()
+            request.user.store.slug = request.user.store.name
+            request.user.store.save()
             messages.success(request, 'Profile updated successfully')
         else:
             messages.error(request, 'Error updating your store')
     else:
         new_user_form = UserEditForm(instance=request.user)
         new_store_form = StoreEditForm(instance=request.user.store)
-    return render(request, 'store/edit_store.html', {'user_form': new_user_form, 'store_form': new_store_form})
+    return render(request, 'store/edit_store.html', {'user_form': new_user_form, 'store_form': new_store_form, 'store':request.user.store})
 
 @login_required
-def change_password_store(request):
+def change_store_password(request):
     if request.method == 'POST':
         form = ChangePassworForm(request.POST)
         if form.is_valid():

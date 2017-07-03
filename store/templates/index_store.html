@@ -1,0 +1,8 @@
+{% extends 'base.html'%}
+{% block content%}
+{% include 'messages.html' %}
+<div>
+    <p>click here to  <a href="{{store.get_add_product_url}}">add product</a></p>
+    <p>click here to  <a href="{{store.get_list_product_url}}">list product</a></p>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.conf import settings
 # Create your models here.
 class Store(models.Model):
@@ -8,6 +9,12 @@ class Store(models.Model):
     photo = models.ImageField(upload_to='images/%Y/%m/%d',blank=True)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
+    def get_index_store_url(self):
+        return reverse('index_store', args=[self.slug])
+    def get_add_product_url(self):
+        return reverse('add_product', args=[self.slug])
+    def get_list_product_url(self):
+        return reverse('list_product', args=[self.slug])
 
 class Product(models.Model):
     store = models.ForeignKey(Store, related_name='products')
@@ -20,3 +27,9 @@ class Product(models.Model):
     available = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    def get_delete_product_url(self):
+        return reverse('delete_product', args=[self.store.slug, self.id])
+    def get_edit_product_url(self):
+        return reverse('edit_product', args=[self.store.slug, self.id])
+    def get_detail_product_url(self):
+        return reverse('detail_product', args=[self.store.slug, self.id])
