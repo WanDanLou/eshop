@@ -19,7 +19,6 @@ from account import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^account/',include('account.urls')),
-    url(r'^cart/', include('cart.urls', namespace='cart')),
     url(r'^store/',include('store.urls')),
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.index, name = 'index'),
 ]

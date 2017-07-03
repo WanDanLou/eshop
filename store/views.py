@@ -3,7 +3,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, RegisterForm, UserEditForm, StoreEditForm, ChangePassworForm
-from .models import Store
+from .models import Store, Product
 from account.models import Profile
 from django.contrib import messages
 # Create your views here.
