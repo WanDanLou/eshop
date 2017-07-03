@@ -8,7 +8,7 @@ from django.contrib import messages
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
-def authenticate(request):
+def login_user(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -17,29 +17,33 @@ def authenticate(request):
                                     password = cd['password'])
             if user is not None:
                 if user.is_active:
-                    auth.login(request, user)
-                    return render(request, 'index.html')
+                    if user.profile.usertype:
+                        return render(request, 'account/login_user.html',
+                                                {'form': form, 'errors':"user is store"})
+                    else:
+                        auth.login(request, user)
+                        return render(request, 'index.html')
                 else:
                     form = LoginErrorForm()
-                    return render(request, 'account/login.html',
+                    return render(request, 'account/login_user.html',
                                             {'form': form, 'errors':"user has been banned"})
-        return render(request, 'account/login.html',
+        return render(request, 'account/login_user.html',
                                             {'form': form, 'errors':"wrong username or wrong password"})
     else:
         form = LoginForm()
-        return render(request, 'account/login.html',{'form': form})
+        return render(request, 'account/login_user.html',{'form': form})
 
-def register(request):
+def register_user(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             if cd['password'] != cd['password2']:
-                return render(request, 'account/register.html',
+                return render(request, 'account/register_user.html',
                                         {'form': form, 'errors':"two password are not same"})
             username_exists=User.objects.filter(username=cd['username']).exists()
             if username_exists:
-                return render(request, 'account/register.html',
+                return render(request, 'account/register_user.html',
                                         {'form': form, 'errors':"username has existed"})
             new_user = User()
             new_user.username = cd['username']
@@ -48,18 +52,18 @@ def register(request):
             new_user.save()
             new_profile = Profile.objects.create(user=new_user)
             #new_profile.save()
-            return render(request, 'account/register_done.html', {'new_user': new_user})
+            return render(request, 'account/register_user_done.html', {'new_user': new_user})
     else:
         form = RegisterForm()
-        return render(request, 'account/register.html', {'form': form})
+        return render(request, 'account/register_user.html', {'form': form})
 
 @login_required
-def logout(request):
+def logout_user(request):
     auth.logout(request)
     return render(request, 'index.html')
 
 @login_required
-def user_edit(request):
+def edit_user(request):
     if request.method == 'POST':
         new_user_form = UserEditForm(instance=request.user, data=request.POST)
         new_profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
@@ -72,10 +76,10 @@ def user_edit(request):
     else:
         new_user_form = UserEditForm(instance=request.user)
         new_profile_form = ProfileEditForm(instance=request.user.profile)
-    return render(request, 'account/user_edit.html', {'user_form': new_user_form, 'profile_form': new_profile_form})
+    return render(request, 'account/edit_user.html', {'user_form': new_user_form, 'profile_form': new_profile_form})
 
 @login_required
-def change_password(request):
+def change_user_password(request):
     if request.method == 'POST':
         form = ChangePassworForm(request.POST)
         if form.is_valid():
@@ -93,4 +97,4 @@ def change_password(request):
                 messages.error(request, 'old password wrong')
     else:
         form = ChangePassworForm()
-    return render(request, 'account/change_password.html', {'form':form})
+    return render(request, 'account/change_user_password.html', {'form':form})

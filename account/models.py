@@ -8,3 +8,4 @@ class Profile(models.Model):
     age = models.PositiveIntegerField(null=True)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
+    usertype = models.BooleanField(default=False) # True is user

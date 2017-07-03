@@ -2,11 +2,12 @@
 {% block content %}
   <h1>log-in</h1>
   <div>
-    <form method="post" action = "{% url 'login' %}">
+    <form method="post" action = "{% url 'login_user' %}">
       {% csrf_token %}
       {{form.as_p}}
       {{errors}}
       <p><input type="submit" value="log-in"></p>
     </form>
+    <a href="{% url 'login_store' %}">login_store</a>
   </div>
 {% endblock %}

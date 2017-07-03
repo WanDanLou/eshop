@@ -14,23 +14,35 @@
     </div>
       <nav>
       <ul class="nav nav-pills pull-right">
-        <li role="presentation">
-          <a href="{% url 'index' %}">index</a>
-        </li>
+      <a href="{% url 'index' %}">index</a>
       {% if user.is_authenticated %}
         <li role="presentation">
-        <a href="{% url 'logout' %}">logout(<b>{{user.username}}</b>)</a>
+        <a href="{% url 'logout_user' %}">logout(<b>{{user.username}}</b>)</a>
         </li>
         <li role="presentation">
-        <a href="{% url 'user_edit' %}">edit</a>
+          {% if user.profile.usertype%}
+          <a href="{% url 'edit_store' %}">edit store</a>
+          {% else %}
+          <a href="{% url 'edit_user' %}">edit user</a>
+          {% endif %}
         </li>
       {% else %}
+        <p>
         <li role="presentation">
-        <a href="{% url 'login' %}">login</a>
-      </li>
+        <a href="{% url 'login_user' %}">login_user</a>
+        </li>
         <li role="presentation">
-        <a href="{% url 'register' %}">register</a>
-      </li>
+        <a href="{% url 'login_store' %}">login_store</a>
+        </li>
+        </p>
+        <p>
+        <li role="presentation">
+        <a href="{% url 'register_user' %}">register_user</a>
+        </li>
+        <li role="presentation">
+        <a href="{% url 'register_store' %}">register_store</a>
+        </li>
+        </p>
       {% endif %}
       </ul>
       </nav>

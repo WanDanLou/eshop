@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>log-in</h1>
+  <div>
+    <form method="post" action = "{% url 'login_store' %}">
+      {% csrf_token %}
+      {{form.as_p}}
+      {{errors}}
+      <p><input type="submit" value="log-in"></p>
+    </form>
+    <a href="{% url 'login' %}">login user</a>
+  </div>
+{% endblock %}
