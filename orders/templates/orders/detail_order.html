@@ -8,10 +8,13 @@
   <table class="order">
     <thead>
         <tr>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Unit price</th>
-          <th>Price</th>
+          <th>Product   </th>
+          <th>Quantity  </th>
+          <th>Unit price   </th>
+          <th>Price   </th>
+          <th>Pay   </th>
+          <th>Deliver   </th>
+          <th>Recieve   </th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +25,20 @@
                   <td>{{ item.quantity}}</td>
                   <td class="num">${{ item.price }}</td>
                   <td class="num">${{ item.get_cost }}</td>
+                  <td>{% if order.paid %}paid{% else %}unpaid{%endif%}</td>
+                  <td>{% if item.delivered%}delivered{% else %}undelivered{%endif%}</td>
+                  <td>{% if item.recieved%}
+                      recieved
+                      {% else %}
+                        {% if item.delivered%}
+                        <form action="{% url 'recieve_item'  item.id%}">
+                        <input type="submit" value="recieve it">
+                        </form>
+                        {% else %}
+                        wait for delivering
+                        {%endif%}
+                      {%endif%}
+                  </td>
               </tr>
           {% endwith %}
       {% endfor %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="main" class="deliver_orderItem">
+  <table class="item">
+    <thead>
+        <tr>
+          <th>name</th>
+          <th>email</th>
+          <th>address</th>
+          <th>postal code</th>
+          <th>city</th>
+          <th>message</th>
+          <th>create</th>
+          <th>quantity</th>
+          <th>total money</th>
+          <th>deliver</th>
+          <th>decieve</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>{{order.name}}</td>
+          <td>{{order.email}}</td>
+          <td>{{order.address}}</td>
+          <td>{{order.postal_code}}</td>
+          <td>{{order.city}}</td>
+          <td>{{order.message}}</td>
+          <td>{{order.created}}</td>
+          <td>{{orderItem.quantity}}</td>
+          <td>{{orderItem.get_cost}}</td>
+          <td>{% if orderItem.delivered%}delivered{% else %}undeliverd{%endif%}</td>
+          <td>{% if orderItem.recieved%}recieved{% else %}unrecieved{%endif%}</td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+{%if not orderItem.delivered%}
+<p>click here to <a href="{% url 'deliver_item_done' orderItem.id%}">deliver</a></p>
+{%endif%}
+<p>click here to <a href="{% url 'index_orderItem' orderItem.store.slug%}">return</a></p>
+{% endblock %}
