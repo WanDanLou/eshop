@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Checkout</h1>
+    <div class="order-info">
+        <p><h3>Your order</h3></p>
+        <ul>
+            {% for item in cart %}
+                <li>
+                    <p>{{ item.product.name }}</p>
+                    <p>{{ item.quantity }} X {{ item.product.price }}</p>
+                    <span>${{ item.total_price }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Total: ${{ cart.get_total_price }}</p>
+    </div>
+    <form action="{% url 'create_order' %}" method="post" class="order-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><input type="submit" value="add order"></p>
+    </form>
+    <p>click here to <a href="{% url 'index' %}">index</a></p>
+{% endblock%}

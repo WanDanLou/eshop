@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <div>
-  hello
+  {% include 'messages.html' %}
+  <p>welcome</p>
+  <p>click here to  <a href="{% url 'list_store'%}">list store</a></p>
+  <p>click here to  <a href="{% url 'index_cart'%}">index cart</a></p>
+  {% if user.is_authenticated %}
+    <p>click here to  <a href="{% url 'index_order'%}">index order</a></p>
+  {% endif%}
 </div>
 {% endblock %}

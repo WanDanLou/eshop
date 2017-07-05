@@ -15,5 +15,9 @@
             </div>
         {% endfor %}
     </div>
-    <p>click here to  <a href="{{store.get_add_product_url}}">add product</a></p>
+    {% if user.is_authenticated %}
+      {% if user.profile.usertype %}
+      <p>click here to  <a href="{{store.get_add_product_url}}">add product</a></p>
+      {% endif %}
+    {% endif %}
 {% endblock content %}

@@ -61,6 +61,7 @@ def register_store(request):
             new_store = Store.objects.create(user=new_user)
             new_store.slug = cd['storename']
             new_store.name = cd['storename']
+            new_store.money = 1000
             new_store.save()
             new_profile = Profile.objects.create(user=new_user)
             new_profile.usertype = True
@@ -113,3 +114,7 @@ def change_store_password(request):
     else:
         form = ChangePassworForm()
     return render(request, 'store/change_store_password.html', {'form':form})
+
+def list_store(request):
+    stores = Store.objects.all()
+    return render(request,'store/list_store.html', {'stores':stores})

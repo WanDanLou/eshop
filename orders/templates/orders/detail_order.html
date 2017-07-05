@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <p>Your order has been successfully completed.
+        <p>Your order number is <stong>{{ order.id }}</stong></p>
+        <p>Your totalcost is <stong>{{ order.get_total_cost }}</stong></p>
+    </p>
+  <table class="order">
+    <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Unit price</th>
+          <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+      {% for item in orderItems %}
+          {% with product=item.product %}
+              <tr>
+                  <td><a href="{{product.get_detail_product_url}}">{{ product.name }}</a></td>
+                  <td>{{ item.quantity}}</td>
+                  <td class="num">${{ item.price }}</td>
+                  <td class="num">${{ item.get_cost }}</td>
+              </tr>
+          {% endwith %}
+      {% endfor %}
+    </tbody>
+  </table>
+    <p>click here to <a href="{% url 'index_order' %}">index order</a></p>
+    {% if order.paid %}
+      <p>this order has been paid</p>
+    {% else %}
+      <p>click here to <a href="{% url 'pay_order' order.id %}">pay</a></p>
+      <p>click here to <a href="{% url 'delete_order' order.id %}">delete</a></p>
+    {% endif %}
+{% endblock%}

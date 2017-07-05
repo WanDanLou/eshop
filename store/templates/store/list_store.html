@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="main" class="store-list">
+  {% for store in stores %}
+    <div class="item">
+        <a href="{{store.get_list_product_url}}">{{store.name}}</a>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -50,7 +50,7 @@ def register_user(request):
             new_user.set_password(cd['password'])
             new_user.email =cd['email']
             new_user.save()
-            new_profile = Profile.objects.create(user=new_user)
+            new_profile = Profile.objects.create(user=new_user, money=1000)
             #new_profile.save()
             return render(request, 'account/register_user_done.html', {'new_user': new_user})
     else:

@@ -8,6 +8,7 @@ class Store(models.Model):
     slug = models.SlugField(max_length=200, db_index=True, unique=True)
     photo = models.ImageField(upload_to='images/%Y/%m/%d',blank=True)
     description = models.TextField(blank=True)
+    money = models.PositiveIntegerField(default=1000)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     def get_index_store_url(self):
         return reverse('index_store', args=[self.slug])

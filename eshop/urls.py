@@ -20,5 +20,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^account/',include('account.urls')),
     url(r'^store/',include('store.urls')),
+    url(r'^cart/', include('cart.urls')),
+    url(r'^orders/', include('orders.urls')),
     url(r'^$', views.index, name = 'index'),
 ]

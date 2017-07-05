@@ -3,6 +3,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .product_forms import addForm, editForm
+from cart.forms import CartAddProductForm
 from .models import Store, Product
 from account.models import Profile
 from django.contrib import messages
@@ -59,14 +60,13 @@ def edit_product(request, store_slug, product_id):
         new_product_form = editForm(instance=product)
     return render(request, 'product/edit_product.html',{'form':new_product_form,'product':product})
 
-@login_required
 def list_product(request, store_slug):
     store = get_object_or_404(Store, slug=store_slug)
     products = Product.objects.filter(store=store, available=True).all()
     return render(request,'product/list_product.html', {'store':store, 'products':products})
 
-@login_required
 def detail_product(request, store_slug, product_id):
     store = get_object_or_404(Store, slug=store_slug)
     product = get_object_or_404(Product, id=product_id)
-    return render(request,'product/detail_product.html', {'store':store, 'product':product})
+    add_cart_form = CartAddProductForm()
+    return render(request,'product/detail_product.html', {'store':store, 'product':product, 'add_cart_form': add_cart_form})

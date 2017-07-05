@@ -7,6 +7,15 @@
     <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
   </head>
   <body>
+    <p>
+      {% if user.is_authenticated %}
+        {% if user.profile.usertype %}
+          your money is {{user.store.money}}
+        {% else %}
+          your money is {{user.profile.money}}
+        {% endif %}
+      {% endif%}
+    </p>
     <div class="container">
       <div class="header clearfix"><h2 class="text-muted"> sbeam</h2></div>
       <section id="content">{% block content %}{% endblock %}</section>
@@ -16,9 +25,9 @@
       <ul class="nav nav-pills pull-right">
       {% if user.is_authenticated %}
         {% if user.profile.usertype %}
-        <a href="{% url 'index' %}">index</a>
-        {% else %}
         <a href="{{user.store.get_index_store_url}}">index</a>
+        {% else %}
+        <a href="{% url 'index' %}">index</a>
         {% endif %}
         <li role="presentation">
         <a href="{% url 'logout_user' %}">logout(<b>{{user.username}}</b>)</a>

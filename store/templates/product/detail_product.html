@@ -7,9 +7,21 @@
         <p class="price">${{ product.price }}</p>
         <p class="stock">{{ product.stock }}</p>
         {{ product.description|linebreaks }}
-        <p>click here to  <a href="{{product.get_delete_product_url}}">delete product</a></p>
-        <p>click here to  <a href="{{product.get_edit_product_url}}">edit product</a></p>
-        <p>click here to  <a href="{{store.get_list_product_url }}">return list</a></p>
-        <p>click here to  <a href="{{store.get_index_store_url }}">return store</a></p>
+        {% if user.is_authenticated %}
+          {% if user.profile.usertype %}
+            <p>click here to  <a href="{{product.get_delete_product_url}}">delete product</a></p>
+            <p>click here to  <a href="{{product.get_edit_product_url}}">edit product</a></p>
+            <p>click here to  <a href="{{store.get_list_product_url }}">return list</a></p>
+            <p>click here to  <a href="{{store.get_index_store_url }}">return store</a></p>
+          {% else %}
+            <p class="price">${{ product.price }}</p>
+            <form action="{% url 'add_cart' product.id %}" method="post">
+                {{ add_cart_form }}
+                {% csrf_token %}
+                <input type="submit" value="Add to cart">
+            </form>
+            <p>click here to  <a href="{% url 'list_store'%}">return list</a></p>
+          {% endif %}
+        {% endif %}
     </div>
 {% endblock content %}

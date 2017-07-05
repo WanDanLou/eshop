@@ -9,3 +9,4 @@ class Profile(models.Model):
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True, db_index=True)
     usertype = models.BooleanField(default=False) # True is user
+    money = models.PositiveIntegerField(default=1000)
