@@ -12,6 +12,7 @@
                 ${{order.get_total_cost}}
                 <span>{% if order.paid %}paid{% else %}unpaid{%endif%}</span>
                 <span>{% if order.wait_recieved%}wait for recieving{%endif%}</span>
+                <span>{% if order.finished%}finished{%endif%}</span>
             </div>
         {% endfor %}
     </div>

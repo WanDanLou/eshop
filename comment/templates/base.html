@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>welcome</title>
+    {% load static %}
+    <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header clearfix"><h2 class="text-muted"> sbeam</h2></div>
+      <section id="content">{% block content %}{% endblock %}</section>
+      <footer class="footer"><p>&copy; 2017 sbeam</p></footer>
+    </div>
+      <nav>
+      <ul class="nav nav-pills pull-right">
+        <li role="presentation">
+          <a href="{% url 'index' %}">index</a>
+        </li>
+      {% if user.is_authenticated %}
+        <li role="presentation">
+        <a href="{% url 'logout_store' %}">logout(<b>{{user.username}}</b>)</a>
+        </li>
+        {% if user.profile.usertype%}
+        <a href="{% url 'edit_store' %}">edit store</a>
+        {% else %}
+        <a href="{% url 'edit_user' %}">edit user</a>
+        {% endif %}
+      {% else %}
+        <li role="presentation">
+        <a href="{% url 'login_store' %}">login_store</a>
+      </li>
+        <li role="presentation">
+        <a href="{% url 'register_store' %}">register_store</a>
+      </li>
+      {% endif %}
+      </ul>
+      </nav>
+  </body>
+</html>

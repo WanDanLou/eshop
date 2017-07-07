@@ -3,6 +3,11 @@
 {% block content %}
     <div>
       <p>{{store.name}}</p>
+      <form method="post" action = "{{store.get_list_product_url}}" >
+          {% csrf_token %}
+          {{ form.as_p }}
+          <p><input type="submit" value="search"></p>
+      </form>
     </div>
     <div id="main" class="product-list">
         {% for product in products %}

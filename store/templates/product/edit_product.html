@@ -6,10 +6,11 @@
     <form method="post"action = "{{product.get_edit_product_url}}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        {{discount_form.as_p}}
         <p><input type="submit" value="edit"></p>
     </form>
     <p>click here to  <a href="{{product.get_detail_product_url}}">return detail</a></p>
-    <p>click here to  <a href="{{store.get_list_product_url }}">return list</a></p>
-    <p>click here to  <a href="{{store.get_index_store_url }}">return store</a></p>
+    <p>click here to  <a href="{{product.store.get_list_product_url }}">return list</a></p>
+    <p>click here to  <a href="{{product.store.get_index_store_url }}">return store</a></p>
 </div>
 {% endblock %}

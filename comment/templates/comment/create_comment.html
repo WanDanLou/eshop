@@ -1,0 +1,12 @@
+{% extends 'base.html'%}
+{% block content%}
+<div>
+  {% include 'messages.html' %}
+  <h1>Now edit your Product</h1>
+  <form method="POST" action="{% url 'create_comment' product.id %}">
+          {% csrf_token %}
+          {% bootstrap_form reply_form layout='inline' %}
+          {% buttons submit=' ' %}{% endbuttons %}
+  </form>
+</div>
+{% endblock %}

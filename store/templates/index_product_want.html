@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div>
+    {% for product in products %}
+        <div class="item">
+            <a href="{{product.get_detail_product_url}}">{{ product.name }}</a>
+            {{product.store.name}}
+            {{product.price}}
+        </div>
+    {% endfor %}
+  </div>
+{% endblock %}

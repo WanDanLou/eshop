@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+{% block content %}
+<div>
+  <h1>Now make your comment</h1>
+  {% include 'messages.html' %}
+  <form method="POST" action = "{%url 'comment_item' orderItem.id%}">
+      {% csrf_token %}
+      {{form.as_p}}
+      {{errors}}
+      <p><input type="submit" value="comment"></p>
+    </form>
+</div>
+{% endblock %}

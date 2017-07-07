@@ -15,6 +15,7 @@
           <th>Pay   </th>
           <th>Deliver   </th>
           <th>Recieve   </th>
+          <th>Comment   </th>
         </tr>
     </thead>
     <tbody>
@@ -39,6 +40,17 @@
                         {%endif%}
                       {%endif%}
                   </td>
+                  <td>
+                      {% if item.recieved%}
+                          {% if item.commented %}
+                          comment has been made
+                          {% else %}
+                          <a href="{% url 'comment_item' item.id %}">comment</a>
+                          {% endif %}
+                      {% else %}
+                          comment
+                      {%endif%}
+                  </td>
               </tr>
           {% endwith %}
       {% endfor %}
@@ -49,6 +61,8 @@
       <p>this order has been paid</p>
     {% else %}
       <p>click here to <a href="{% url 'pay_order' order.id %}">pay</a></p>
-      <p>click here to <a href="{% url 'delete_order' order.id %}">delete</a></p>
+    {% endif %}
+    {% if not order.paid or order.finished%}
+    <p>click here to <a href="{% url 'delete_order' order.id %}">delete</a></p>
     {% endif %}
 {% endblock%}

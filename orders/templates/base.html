@@ -27,7 +27,7 @@
         {% if user.profile.usertype %}
         <a href="{% url 'index' %}">index</a>
         {% else %}
-        <a href="{{user.store.get_index_store_url}}">index</a>
+        <a href="{% url'index' %}">index</a>
         {% endif %}
         <li role="presentation">
         <a href="{% url 'logout_user' %}">logout(<b>{{user.username}}</b>)</a>

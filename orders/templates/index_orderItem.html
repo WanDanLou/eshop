@@ -12,6 +12,7 @@
           <th>Deliver</th>
           <th>Recieve</th>
           <th>Detail</th>
+          <th>Reply</th>
         </tr>
     </thead>
     <tbody>
@@ -34,6 +35,16 @@
                   <td>{% if item.recieved%}recieved{% else %}unrecieved{%endif%}
                   </td>
                   <td><a href="{% url 'detail_item' item.id%}">more</a></td>
+                  <td>
+                      {% if item.commented %}
+                        {% if item.replied %}
+                        <a href="{% url 'revision_reply' item.id%}">reversion reply</a>
+                        {% else %}
+                        <a href="{% url 'reply_item' item.id%}">reply</a>
+                        {% endif %}
+                      {% else %}
+                        can't reply
+                      {% endif %}
               </tr>
           {% endwith %}
       {% endfor %}

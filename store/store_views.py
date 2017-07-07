@@ -82,11 +82,16 @@ def edit_store(request):
         new_user_form = UserEditForm(instance=request.user, data=request.POST)
         new_store_form = StoreEditForm(instance=request.user.store, data=request.POST, files=request.FILES)
         if new_user_form.is_valid() and new_store_form.is_valid():
-            new_user_form.save()
-            new_store_form.save()
-            request.user.store.slug = request.user.store.name
-            request.user.store.save()
-            messages.success(request, 'Profile updated successfully')
+            cd = new_store_form.cleaned_data
+            if Store.objects.filter(name=cd['name']).exists():
+                messages.error(request, 'username has existed')
+            else:
+                new_user_form.save()
+                new_store_form.save()
+                store = request.user.store
+                request.user.store.slug = request.user.store.name
+                request.user.store.save()
+                messages.success(request, 'Profile updated successfully')
         else:
             messages.error(request, 'Error updating your store')
     else:
@@ -116,5 +121,5 @@ def change_store_password(request):
     return render(request, 'store/change_store_password.html', {'form':form})
 
 def list_store(request):
-    stores = Store.objects.all()
+    stores = Store.objects.exclude(products=None)
     return render(request,'store/list_store.html', {'stores':stores})

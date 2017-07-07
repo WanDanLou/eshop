@@ -15,6 +15,7 @@ class Order(models.Model):
     paid = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     wait_recieved = models.BooleanField(default=False)
+    finished = models.BooleanField(default=False)
     class Meta:
         ordering = ('-created', )
     def get_total_cost(self):
@@ -32,5 +33,7 @@ class OrderItem(models.Model):
     paid = models.BooleanField(default=False)
     delivered = models.BooleanField(default=False)
     recieved = models.BooleanField(default=False)
+    commented = models.BooleanField(default=False)
+    replied = models.BooleanField(default=False)
     def get_cost(self):
         return self.price * self.quantity

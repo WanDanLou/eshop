@@ -13,4 +13,8 @@ urlpatterns = [
     url(r'^edit_product/(?P<store_slug>[-\w]+)/(?P<product_id>\d+)/$', product_views.edit_product, name='edit_product'),
     url(r'^list_product/(?P<store_slug>[-\w]+)/$',product_views.list_product, name='list_product'),
     url(r'^detail_product/(?P<store_slug>[-\w]+)/(?P<product_id>\d+)/$', product_views.detail_product, name='detail_product'),
+    url(r'^search_index/$', product_views.search_index, name='search_index'),
+    url(r'^add_user_want/(?P<store_slug>[-\w]+)/(?P<product_id>\d+)/$', product_views.add_user_want, name='add_user_want'),
+    url(r'^delete_user_want/(?P<store_slug>[-\w]+)/(?P<product_id>\d+)/$', product_views.delete_user_want, name='delete_user_want'),
+    url(r'^index_product_want/$', product_views.index_product_want, name='index_product_want'),
 ]

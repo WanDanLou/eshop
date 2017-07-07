@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+{% block content %}
+<div>
+  <h1>Now reply</h1>
+  <h2>this is comment</h2>
+  <h4>{{comment.body}}</h4>
+  <h2>this is previous reply<h2>
+  <h4>{{comment.reply}}</h4>
+  {% include 'messages.html' %}
+  <form method="POST" action = "{%url 'revision_reply' orderItem.id%}">
+      {% csrf_token %}
+      {{form.as_p}}
+      {{errors}}
+      <p><input type="submit" value="comment"></p>
+    </form>
+</div>
+{% endblock %}

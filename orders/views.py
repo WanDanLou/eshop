@@ -3,9 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import OrderCreateForm
 from .models import Order, OrderItem
+from comment.models import Comment
 from store.models import Store, Product
 from django.contrib import messages
 from cart.cart import Cart
+from comment.forms import CommentForm
 # Create your views here.
 @login_required
 def create_order(request):
@@ -68,6 +70,7 @@ def delete_order_done(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     messages.success(request, 'delete successfully')
     order.deleted = True
+    order.save()
     return redirect('index_order')
 @login_required
 def index_orderItem(request, store_slug):
@@ -110,4 +113,85 @@ def recieve_item(request, orderItem_id):
         order.wait_recieved = True
     else:
         order.wait_recieved = False
+    if OrderItem.objects.filter(order=order, recieved=False).exists():
+        order.finished = False
+    else:
+        order.finished = True
+    order.save()
     return redirect('detail_order', orderItem.order.id)
+
+@login_required
+def make_comment(request, orderItem_id):
+    orderItem = get_object_or_404(OrderItem, id=orderItem_id)
+    if(request.method == 'POST'):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            orderItem.commented = True
+            product = orderItem.product
+            cd = form.cleaned_data
+            comment = Comment()
+            comment.product = product
+            comment.author = request.user.profile
+            comment.grade = cd['grade']
+            comment.name = request.user.username
+            comment.body = cd['body']
+            orderItem.save()
+            comment.save()
+            messages.info(request, '评论成功 ')
+            return redirect('index_order')
+        else:
+            messages.warning(request, '评论失败')
+            return render(request, 'orders/comment_item.html', {'form': form,'orderItem':orderItem})
+    else:
+        form = CommentForm()
+        return render(request, 'orders/comment_item.html', {'form': form,'orderItem':orderItem})
+
+@login_required
+def revision_comment(request, orderItem_id):
+    orderItem = get_object_or_404(OrderItem, id=orderItem_id)
+    comment = get_object_or_404(Comment, orderitem = orderItem)
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        product = orderItem.product
+        cd = form.cleaned_data
+        comment.grade = cd['grade']
+        comment.name = cd['name']
+        comment.body = cd['body']
+        comment.save()
+        messages.info(request, '修改成功 ')
+        return redirect('index_order')
+    else:
+        messages.warning(request, '修改失败')
+        return render(request, 'orders/revision_comment.html', {'form': form,'orderItem':orderItem})
+
+@login_required
+def reply_item(request, orderItem_id):
+    orderItem = get_object_or_404(OrderItem, id=orderItem_id)
+    comment = get_object_or_404(Comment, orderitem = orderItem)
+    form = ReplyForm(request.POST)
+    if form.is_valid():
+        orderItem.replied = True
+        cd = form.cleaned_data
+        comment.reply = cd['reply']
+        comment.save()
+        orderItem.save()
+        messages.info(request, '回復成功 ')
+        return redirect('index_orderItem',request.user.store.slug)
+    else:
+        messages.warning(request, '回復失敗')
+        return render(request, 'orders/reply_item.html', {'form': form,'orderItem':orderItem, 'comment':comment})
+
+@login_required
+def revision_reply(request, orderItem_id):
+    orderItem = get_object_or_404(OrderItem, id=orderItem_id)
+    comment = get_object_or_404(Comment, orderitem = orderItem)
+    form = ReplyForm(request.POST)
+    if form.is_valid():
+        cd = form.cleaned_data
+        comment.reply = cd['reply']
+        comment.save()
+        messages.info(request, '修改成功 ')
+        return redirect('index_orderItem',request.user.store.slug)
+    else:
+        messages.warning(request, '修改失败')
+        return render(request, 'orders/revision_reply.html', {'form': form,'orderItem':orderItem,'comment':comment})

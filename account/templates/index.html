@@ -7,6 +7,8 @@
   {% if user.is_authenticated %}
     <p>click here to  <a href="{% url 'index_cart'%}">index cart</a></p>
     <p>click here to  <a href="{% url 'index_order'%}">index order</a></p>
+    <p>click here to  <a href="{% url 'search_index'%}">search</a></p>
+    <p>click here to  <a href="{% url 'index_product_want'%}">product want</a></p>
   {% endif%}
 </div>
 {% endblock %}

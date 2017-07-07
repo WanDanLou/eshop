@@ -13,4 +13,8 @@ urlpatterns = [
     url(r'^detail_item/(?P<orderItem_id>\d+)/$', views.detail_item, name='detail_item'),
     url(r'^index_orderItem/(?P<store_slug>[-\w]+)/$', views.index_orderItem, name='index_orderItem'),
     url(r'^index_order/$', views.index_order, name='index_order'),
+    url(r'^comment_item/(?P<orderItem_id>\d+)/$', views.make_comment, name='comment_item'),
+    url(r'^revision_comment/(?P<orderItem_id>\d+)/$', views.revision_comment, name='revision_comment'),
+    url(r'^reply_item/(?P<orderItem_id>\d+)/$', views.reply_item, name='reply_item'),
+    url(r'^revision_reply/(?P<orderItem_id>\d+)/$', views.revision_reply, name='revision_reply'),
 ]
