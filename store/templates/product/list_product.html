@@ -1,25 +1,70 @@
-{% extends "base.html" %}
+{% extends "store_base.html" %}
 {% load static %}
 {% block content %}
     <div>
-      <p>{{store.name}}</p>
-      <form method="post" action = "{{store.get_list_product_url}}" >
-          {% csrf_token %}
-          {{ form.as_p }}
-          <p><input type="submit" value="search"></p>
-      </form>
+      <div class="item">
+        <img width="50" height="50" src="{% if store.photo %}{{ store.photo.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+        <a href="{{store.get_list_product_url}}">{{store.name}}</a>
+      </div>
+      <p>filter by
+        <a href="{% url 'list_product_filter' store.slug 0%}">None</a>|
+        <a href="{% url 'list_product_filter' store.slug 1%}">不知道怎么分类</a>|
+        <a href="{% url 'list_product_filter' store.slug 2%}">攻击</a>|
+        <a href="{% url 'list_product_filter' store.slug 3%}">法术</a>|
+        <a href="{% url 'list_product_filter' store.slug 4%}">防御</a>|
+        <a href="{% url 'list_product_filter' store.slug 5%}">移动</a>|
+        <a href="{% url 'list_product_filter' store.slug 6%}">打野及消耗品</a>
+        <form method="post" action = "{%url 'list_product' store.slug%}" class = "account">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="search">
+        </form>
+      </p>
     </div>
-    <div id="main" class="product-list">
-        {% for product in products %}
-            <div class="item">
-                <a href="{{product.get_detail_product_url}}">
-                   <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-                </a>
-                <a href="{{product.get_detail_product_url}}">{{ product.name }}</a><br/>
-                ${{ product.price }}
-            </div>
-        {% endfor %}
-    </div>
+    <p>click here to
+      <a href="{% url 'order_product_created' store.slug%}">order by created{% if store.order_created%}↑{%else%}↓{%endif%}</a>
+      <a href="{% url 'sort_product_created' store.slug%}">{% if not store.sort_created%}√{%else%}×{%endif%}</a>
+    </p>
+    <p>click here to
+      <a href="{% url 'order_product_name' store.slug%}">order by name{% if store.order_name%}↑{%else%}↓{%endif%}</a>
+      <a href="{% url 'sort_product_name' store.slug%}">{% if not store.sort_name%}√{%else%}×{%endif%}</a>
+    </p>
+    <p>click here to
+      <a href="{% url 'order_product_volume' store.slug%}">order by volume{% if store.order_volume%}↑{%else%}↓{%endif%}</a>
+      <a href="{% url 'sort_product_volume' store.slug%}">{% if not store.sort_volume%}√{%else%}×{%endif%}</a>
+    </p>
+    <p>click here to
+      <a href="{% url 'order_product_price' store.slug%}">order by price{% if store.order_price%}↑{%else%}↓{%endif%}</a>
+      <a href="{% url 'sort_product_price' store.slug%}">{% if not store.sort_price%}√{%else%}×{%endif%}</a>
+    </p>
+    <table class="cart">
+        <thead>
+            <tr>
+                <th width="250">Image</th>
+                <th width="200">Name</th>
+                <th width="200">Store</th>
+                <th width="200">Price</th>
+                <th width="200">discount?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+          <tr>
+              <td width="250">
+                  <a href="{{product.get_detail_product_url}}">
+                      <img src="{% if product.image %}{{ product.image.url}}{% else %}{% static 'img/no_image.png' %}{% endif %}" height="150" width="150">
+                  </a>
+              </td>
+              <td width="200"><a href="{{product.get_detail_product_url}}">{{ product.name }}</a></td>
+              <td width="200">{{product.store.name}}</td>
+              <td width="200"> $ {{product.price}}</td>
+              <td> {%if product.discounted%}<strong>正在打折!!!</strong>{%else%}<strong>未打折</strong>{%endif%}</td>
+          </tr>
+      </tbody>
+
+  {% endfor %}
+  </table>
+</br></br>
     {% if user.is_authenticated %}
       {% if user.profile.usertype %}
       <p>click here to  <a href="{{store.get_add_product_url}}">add product</a></p>

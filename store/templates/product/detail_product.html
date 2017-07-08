@@ -1,50 +1,357 @@
-{% extends "base.html" %}
-{% load static %}
-{% block content %}
-    <div>
-      {% if user.is_authenticated %}
-        {% if not user.profile.usertype %}
-          {% if not user_want %}
-          <form action="{% url 'add_user_want' store.slug product.id%}">
-            <input type="submit" value="add_user_want">
-          </form>
-          {% else %}
-          <form action="{% url 'delete_user_want' store.slug product.id%}">
-            <input type="submit" value="delete_user_want">
-          </form>
-          {% endif%}
-        {% endif %}
-      {% endif %}
-    </div>
-    <div class="product-detail">
-        <img src="{% if product.image %}{{product.image.url}}{% else %} {% static 'img/no_image.png' %}{% endif %}">
-        <h1>{{ product.name }}</h1>
-        <p class="old_price">${{ product.old_price }}</p>
-        <p class="price">{{ product.price }}</p>
-        {{ product.description|linebreaks }}
-        {% for comment in comments %}
-        <li class="list-group-item clearfix">
-        <div class="word-wrap">{{comment.body}}  grade:{{comment.grade}}</div>
+<html>
 
-        <div class="pull-right"> <b>{{comment.name}}</b>
-                                 <span>{{comment.created }}</span>
+<head>
+  <title>Home</title>
+  {% load static %}
+  <link href="{% static 'bootstrap/css/style.css'%}" rel="stylesheet" type="text/css" media="all">
+  <script src="{% static 'bootstrap/js/jquery.min.js'%}"></script>
+  <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet" type="text/css" media="all">
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+  <!-- Custom Theme files -->
+  <!--theme-style-->
+  <link href="css/style.css" rel="stylesheet" type="text/css" media="all">
+  <!--//theme-style-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="keywords" content="">
+  <script type="application/x-javascript">
+    addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+  </script>
+  <!--fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Exo:100,200,300,400,500,600,700,800,900" rel="stylesheet" type="text/css">
+  <!--//fonts-->
+  <script type="text/javascript" src="{% static 'bootstrap/js/move-top.js'%}"></script>
+  <script type="text/javascript" src="{% static 'bootstrap/js/easing.js'%}"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+    						$(".scroll").click(function(event){
+    							event.preventDefault();
+    							$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+    						});
+    					});
+  </script>
+  <!--slider-script-->
+  <script src="{% static 'bootstrap/js/responsiveslides.min.js'%}"></script>
+  <script src="bootstrap/js/responsiveslides.min.js"></script>
+  <script>
+    $(function () {
+    				  $("#slider1").responsiveSlides({
+    					auto: true,
+    					speed: 500,
+    					namespace: "callbacks",
+    					pager: true,
+    				  });
+    				});
+  </script>
+  <!--//slider-script-->
+  <script>
+    $(document).ready(function(c) {
+    	$('.alert-close').on('click', function(c){
+    		$('.message').fadeOut('slow', function(c){
+    	  		$('.message').remove();
+    		});
+    	});
+    });
+  </script>
+  <script>
+    $(document).ready(function(c) {
+    	$('.alert-close1').on('click', function(c){
+    		$('.message1').fadeOut('slow', function(c){
+    	  		$('.message1').remove();
+    		});
+    	});
+    });
+  </script>
+</head>
+
+<body>
+  <!--header-->
+  <div class="header">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top-in">
+          <div class="logo">
+            <a href= "{% url 'index' %}">
+              <img src="{% static 'images/logo.png' %}" alt=" ">
+            </a>
+          </div>
+          <div class="header-in">
+            <ul class="icon1 sub-icon1">
+                {% if user.is_authenticated %}
+                  {% if user.profile.usertype %}
+                  <li>
+                      <a href="{% url 'index_orderItem' request.user.store.slug %}"> MY ORDER</a>
+                  </li>
+                  <li>
+                      <a href="{{request.user.store.get_list_product_url}}"> LIST PRO</a>
+                  </li>
+                  <li>
+                      <a href="{{request.user.store.get_add_product_url}}"> ADD PRO</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'edit_store' %}">EDIT STORE</a>
+                  </li>
+                  {% else %}
+                  <li>
+                      <a href="{% url 'index_cart'%}"> SHOPPING CART</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'index_order'%}"> MY ORDER</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'edit_user' %}"> EDIT INFORMATION</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'index_product_want' %}">WISH_LIST</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'list_store'%}">STORE LIST</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'index_product_visit'%}">FOOTPRINTS</a>
+                  </li>
+                  {% endif %}
+                  {% else %}
+                  {% endif %}
+            </ul>
+          </div>
+          <div class="clearfix"> </div>
         </div>
-        </li>
-        {% endfor %}
-        {% if user.is_authenticated %}
-          {% if user.profile.usertype %}
-            <p>click here to  <a href="{{product.get_delete_product_url}}">delete product</a></p>
-            <p>click here to  <a href="{{product.get_edit_product_url}}">edit product</a></p>
-            <p>click here to  <a href="{{store.get_list_product_url }}">return list</a></p>
-            <p>click here to  <a href="{{store.get_index_store_url }}">return store</a></p>
-          {% else %}
-            <form action="{% url 'add_cart' product.id %}" method="post">
-                {{ add_cart_form }}
-                {% csrf_token %}
-                <input type="submit" value="Add to cart">
-            </form>
-            <p>click here to  <a href="{% url 'list_store'%}">return list</a></p>
-          {% endif %}
-        {% endif %}
+      </div>
     </div>
-{% endblock content %}
+    <div class="header-bottom-in">
+      <div class="container">
+        <div class="header-bottom-on">
+          <p class="wel">
+            {% if user.is_authenticated %}
+            Welcome {{user.username}}, click to <a href="{% url 'logout_user' %}">logout</a>
+            {% else %}
+            Welcome visitor , you can <a href="{% url 'login_user' %}">login</a> or <a href="{% url 'register_user' %}">create an account.</a>
+            {% endif %}
+          </p>
+          <div class="header-can">
+
+             <p class="wel"> <a href="{% url 'search_index'%}">click here to search </a></p>
+
+            <div class="clearfix"> </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+	<!---->
+		<div class="container">
+			<div class="single">
+				<div class="col-md-9 top-in-single">
+					<div class="col-md-5 single-top">
+						<!-- start product_slider -->
+				    <div class="flexslider">
+							        <!-- FlexSlider -->
+                                        <script src="{% static 'bootstrap/js/imagezoom.js'%}"></script>
+                                        <script src="{% static 'bootstrap/js/jquery.flexslider.js'%}"></script>
+										<link rel="stylesheet" href="{% static 'bootstrap/css/flexslider.css'%}" type="text/css" media="screen" />
+
+										<script>
+										// Can also be used with $(document).ready()
+										$(window).load(function() {
+										  $('.flexslider').flexslider({
+											animation: "slide",
+											controlNav: "thumbnails"
+										  });
+										});
+										</script>
+									<!-- //FlexSlider-->
+
+							  <ul class="slides">
+								<li data-thumb="images/si1.jpg">
+									<div class="thumb-image"> <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" data-imagezoom="true" class="img-responsive"> </div>
+								</li>
+							  </ul>
+							<div class="clearfix"></div>
+					</div>
+				<!-- end product_slider -->
+
+					</div>
+					<div class="col-md-7 single-top-in">
+						<div class="single-para">
+							<h4>商品名：{{product.name}}</h4>
+              <p><span>价格${{product.old_price}}</span></p>
+							<div class="para-grid">
+								{%if product.discounted%}<span  class="add-to">现在价格${{product.price}}<strong> 正在打折!!!<strong></span>{%endif%}
+								<div class="clearfix"></div>
+							 </div>
+                            {% if user.is_authenticated %}
+                                {% if user.profile.usertype %}
+                                {% if user.id == store.user.id %}
+                                <p>click here to  <a href="{{product.get_delete_product_url}}">delete product</a></p>
+                                <p>click here to  <a href="{{product.get_edit_product_url}}">edit product</a></p>
+                                <p>click here to  <a href="{{store.get_list_product_url }}">return list</a></p>
+                                <p>click here to  <a href="{% url 'index' %}">index</a></p>
+                                {% endif %}
+                                {% else %}
+                                <br>
+                                    You can add it to wishlist:
+                                </br>
+                                <p>{% if not user_want %}
+                                <form action="{% url 'add_user_want' store.slug product.id%}">
+                                    <input type="submit" value="Want" class="hvr-shutter-in-vertical cart-to">
+                                </form>
+                                {% else %}
+                                <form action="{% url 'delete_user_want' store.slug product.id%}">
+                                    <input type="submit" value="Delete_want" class="hvr-shutter-in-vertical cart-to">
+                                </form>
+                                {% endif%}</p>
+                                <br>
+                                    You can add it to cart:
+                                </br>
+
+                                <p><form action="{% url 'add_cart' product.id %}" method="post">
+                                    {{ add_cart_form }}
+                                    {% csrf_token %}
+                                    <input type="submit" value="Add to cart"  class="hvr-shutter-in-vertical cart-to">
+                                </form></p>
+                                {% endif %}
+                            {% endif %}
+                            </br>
+                            <h4>
+                                description:
+                            </h4>
+							<p>{{product.description}}</p>
+						</div>
+					</div>
+				<div class="clearfix"> </div>
+				<div class="content-top-in">
+                    <h4>
+                        Comments :
+                    </h4></br>
+                    {% for comment in comments %}
+                    <li class="list-group-item clearfix">
+                        <h6>
+                            content  :  {{comment.body}}
+                        </h6></br>
+                        <h6>
+                            grade  :  {{comment.grade}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reply  :  {{comment.reply}}
+                        </h6>
+
+                        <div class="pull-right"> <b>{{comment.author.user.name}}</b>
+                                 <span>{{comment.created }}</span>
+                             </div>
+                         </li>
+                         {% endfor %}
+                <div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="single-bottom">
+						<h4>Categories</h4>
+						<ul>
+						<li><a href="#"><i> </i>Fusce feugiat</a></li>
+						<li><a href="#"><i> </i>Mascot Kitty</a></li>
+						<li><a href="#"><i> </i>Fusce feugiat</a></li>
+						<li><a href="#"><i> </i>Mascot Kitty</a></li>
+						<li><a href="#"><i> </i>Fusce feugiat</a></li>
+						</ul>
+					</div>
+					<div class="single-bottom">
+						<h4>Product Categories</h4>
+						<ul>
+						<li><a href="#"><i> </i>feugiat(5)</a></li>
+						<li><a href="#"><i> </i>Fusce (4)</a></li>
+						<li><a href="#"><i> </i> feugiat (4)</a></li>
+						<li><a href="#"><i> </i>Fusce (4)</a></li>
+						<li><a href="#"><i> </i> feugiat(2)</a></li>
+						</ul>
+					</div>
+				</div>
+				</div>
+				<div class="clearfix"> </div>
+		</div>
+	</div>
+		<!---->
+		<div class="footer">
+			<div class="footer-top">
+				<div class="container">
+					<div class="col-md-4 footer-in">
+						<h4><i> </i>Suspendisse sed</h4>
+						<p>Aliquam dignissim porttitor tortor non fermentum. Curabitur in magna lectus. Duis sed eros diam. Lorem ipsum dolor sit amet, consectetur.</p>
+					</div>
+					<div class="col-md-4 footer-in">
+						<h4><i class="cross"> </i>Suspendisse sed</h4>
+						<p>Aliquam dignissim porttitor tortor non fermentum. Curabitur in magna lectus. Duis sed eros diam. Lorem ipsum dolor sit amet, consectetur.</p>
+					</div>
+					<div class="col-md-4 footer-in">
+						<h4><i class="down"> </i>Suspendisse sed</h4>
+						<p>Aliquam dignissim porttitor tortor non fermentum. Curabitur in magna lectus. Duis sed eros diam. Lorem ipsum dolor sit amet, consectetur.</p>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<!---->
+			<div class="footer-middle">
+				<div class="container">
+					<div class="footer-middle-in">
+						<h6>About us</h6>
+						<p>Suspendisse sed accumsan risus. Curabitur rhoncus, elit vel tincidunt elementum, nunc urna tristique nisi, in interdum libero magna tristique ante. adipiscing varius. Vestibulum dolor lorem.</p>
+					</div>
+					<div class="footer-middle-in">
+						<h6>Information</h6>
+						<ul>
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Delivery Information</a></li>
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a href="#">Terms & Conditions</a></li>
+						</ul>
+					</div>
+					<div class="footer-middle-in">
+						<h6>Customer Service</h6>
+						<ul>
+							<li><a href="#">Contact Us</a></li>
+							<li><a href="#">Returns</a></li>
+							<li><a href="#">Site Map</a></li>
+						</ul>
+					</div>
+					<div class="footer-middle-in">
+						<h6>My Account</h6>
+						<ul>
+							<li><a href="#">My Account</a></li>
+							<li><a href="#">Order History</a></li>
+							<li><a href="#">Wish List</a></li>
+							<li><a href="#">Newsletter</a></li>
+						</ul>
+					</div>
+					<div class="footer-middle-in">
+						<h6>Extras</h6>
+						<ul>
+							<li><a href="#">Brands</a></li>
+							<li><a href="#">Gift Vouchers</a></li>
+							<li><a href="#">Affiliates</a></li>
+							<li><a href="#">Specials</a></li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<p class="footer-class">Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+			<script type="text/javascript">
+						$(document).ready(function() {
+							/*
+							var defaults = {
+					  			containerID: 'toTop', // fading element id
+								containerHoverID: 'toTopHover', // fading element hover id
+								scrollSpeed: 1200,
+								easingType: 'linear'
+					 		};
+							*/
+
+							$().UItoTop({ easingType: 'easeOutQuart' });
+
+						});
+					</script>
+				<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+
+		</div>
+</body>
+</html>

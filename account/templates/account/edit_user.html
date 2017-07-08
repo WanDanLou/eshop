@@ -1,14 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'store_base.html' %}
 {% block content %}
   <div>
     {% include 'messages.html' %}
-    <h1>Now edit your infomation</h1>
-      <form method="post" action = "{% url 'edit_user' %}" enctype="multipart/form-data">
+    <h2 class = "account-in">Now edit your infomation</h2>
+      <form method="post" action = "{% url 'edit_user' %}" enctype="multipart/form-data" class = "account">
           {% csrf_token %}
           {{ user_form.as_p }}
           {{ profile_form.as_p }}
           <p><input type="submit" value="Save changes"></p>
       </form>
-      <p>click here to  <a href="{% url 'change_user_password' %}">change_password</a></p>
+      <nav>
+       <ul class="nav nav-pills pull-right">
+      <a href="{% url 'change_store_password' %}" class="hvr-shutter-in-vertical hvr-shutter-in-vertical2" >change_password</a>
+  </ul>
+  </nav>
   </div>
 {% endblock %}

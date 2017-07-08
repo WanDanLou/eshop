@@ -1,9 +1,9 @@
-{% extends 'base.html'%}
+{% extends 'store_base.html'%}
 {% block content %}
 <div>
-  <h1>Now make your comment</h1>
+  <h2 class = "account-in">Now make your comment</h2>
   {% include 'messages.html' %}
-  <form method="POST" action = "{%url 'comment_item' orderItem.id%}">
+  <form method="POST" action = "{%url 'comment_item' orderItem.id%}" class = "account">
       {% csrf_token %}
       {{form.as_p}}
       {{errors}}

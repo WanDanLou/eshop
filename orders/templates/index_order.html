@@ -1,20 +1,39 @@
-{% extends "base.html" %}
+{% extends "store_base.html" %}
 {% block content %}
   {% include 'messages.html' %}
     <div>
-      <p>{{user.name}}</p>
-      <p>all order are here</p>
+      <h2 class="account-in">all order are here</h2>
     </div>
-    <div id="main" class="order-list">
-        {% for order in orders %}
-            <div class="item">
-                <a href="{{order.get_detail_url}}">{{order.created}}</a>
-                ${{order.get_total_cost}}
-                <span>{% if order.paid %}paid{% else %}unpaid{%endif%}</span>
-                <span>{% if order.wait_recieved%}wait for recieving{%endif%}</span>
-                <span>{% if order.finished%}finished{%endif%}</span>
-            </div>
-        {% endfor %}
+    <div>
+        <form method="post" action = "{% url 'index_order' %}" >
+            {% csrf_token %}
+            {{ form.as_p }}
+            <p><input type="submit" value="search"></p>
+        </form>
     </div>
-    <p>click here to <a href="{% url 'index' %}">index</a></p>
+    <table class="cart">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Cost</th>
+                <th>Paid?</th>
+                <th>reiceived?</th>
+                <th>finished?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+          <tr>
+              <td width="250" height = "50">
+                 <a href="{{order.get_detail_url}}">{{order.created}}</a>
+              </td>
+              <td width="200">${{order.get_total_cost}}</a></td>
+              <td width="200">{% if order.paid %}paid{% else %}unpaid{%endif%}</td>
+              <td width="200">{% if order.wait_recieved%}wait for recieving{% else %} wait for deliver {%endif%}</td>
+              <td width="200">{% if order.finished%}finished{% else %}unfinished{%endif%}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+        </br></br></br></br>
 {% endblock content %}

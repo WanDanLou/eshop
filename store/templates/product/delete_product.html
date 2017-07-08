@@ -1,15 +1,15 @@
-{% extends 'base.html'%}
+{% extends 'store_base.html'%}
 {% block content%}
 <div>
   {% include 'messages.html' %}
-  <h1>Now delete your Product</h1>
-    <form method="post" action = "{{product.get_delete_product_url }}">
+  <h2 class = "account-in">Now delete your Product</h2>
+    <form method="post" action = "{{product.get_delete_product_url }}" class = "account">
         <p>are you sure?<p>
           {% csrf_token %}
         <p><input type="submit" value="delelte"></p>
     </form>
     <p>click here to  <a href="{{product.get_detail_product_url}}">return detail</a></p>
     <p>click here to  <a href="{{store.get_list_product_url }}">return list</a></p>
-    <p>click here to  <a href="{{store.get_index_store_url }}">return store</a></p>
+    <p>click here to  <a href="{% url 'index' %}">index</a></p>
 </div>
 {% endblock %}

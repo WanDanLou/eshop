@@ -1,13 +1,12 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-  <h1>register</h1>
+  <h2 class="account-in">Register_user</h2>
   <div>
-    <form method="post" action = "{% url 'register_user' %}">
+    <form method="post" action = "{% url 'register_user' %}" class="account">
       {% csrf_token %}
       {{form.as_p}}
       {{errors}}
       <p><input type="submit" value="register"></p>
     </form>
-    <a href="{% url 'register_store' %}">register_store</a>
   </div>
 {% endblock %}

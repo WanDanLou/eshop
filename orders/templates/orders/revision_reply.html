@@ -1,13 +1,12 @@
-{% extends 'base.html'%}
+{% extends 'store_base.html'%}
 {% block content %}
 <div>
-  <h1>Now reply</h1>
-  <h2>this is comment</h2>
-  <h4>{{comment.body}}</h4>
-  <h2>this is previous reply<h2>
-  <h4>{{comment.reply}}</h4>
-  {% include 'messages.html' %}
-  <form method="POST" action = "{%url 'revision_reply' orderItem.id%}">
+    <h2 class = "account-in">Now reply</h2>
+    <h2 class = "account-in">this is comment</h2>
+    <h3>{{comment.body}}</h3>
+    <h2 class = "account-in">this is previous reply</h2>
+    <h3>{{comment.reply}}</h3>
+  <form method="POST" action = "{%url 'revision_reply' orderItem.id%}" class = "account">
       {% csrf_token %}
       {{form.as_p}}
       {{errors}}

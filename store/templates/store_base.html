@@ -1,0 +1,275 @@
+<html>
+
+<head>
+  <title>Home</title>
+  {% load static %}
+  <link href="{% static 'bootstrap/css/style.css'%}" rel="stylesheet" type="text/css" media="all">
+  <script src="{% static 'bootstrap/js/jquery.min.js'%}"></script>
+  <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet" type="text/css" media="all">
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+  <!-- Custom Theme files -->
+  <!--theme-style-->
+  <link href="css/style.css" rel="stylesheet" type="text/css" media="all">
+  <!--//theme-style-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="keywords" content="">
+  <script type="application/x-javascript">
+    addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+  </script>
+  <!--fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Exo:100,200,300,400,500,600,700,800,900" rel="stylesheet" type="text/css">
+  <!--//fonts-->
+  <script type="text/javascript" src="{% static 'bootstrap/js/move-top.js'%}"></script>
+  <script type="text/javascript" src="{% static 'bootstrap/js/easing.js'%}"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function($) {
+    						$(".scroll").click(function(event){
+    							event.preventDefault();
+    							$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+    						});
+    					});
+  </script>
+  <!--slider-script-->
+  <script src="{% static 'bootstrap/js/responsiveslides.min.js'%}"></script>
+  <script src="bootstrap/js/responsiveslides.min.js"></script>
+  <script>
+    $(function () {
+    				  $("#slider1").responsiveSlides({
+    					auto: true,
+    					speed: 500,
+    					namespace: "callbacks",
+    					pager: true,
+    				  });
+    				});
+  </script>
+  <!--//slider-script-->
+  <script>
+    $(document).ready(function(c) {
+    	$('.alert-close').on('click', function(c){
+    		$('.message').fadeOut('slow', function(c){
+    	  		$('.message').remove();
+    		});
+    	});
+    });
+  </script>
+  <script>
+    $(document).ready(function(c) {
+    	$('.alert-close1').on('click', function(c){
+    		$('.message1').fadeOut('slow', function(c){
+    	  		$('.message1').remove();
+    		});
+    	});
+    });
+  </script>
+</head>
+
+<body>
+  <!--header-->
+  <div class="header">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-top-in">
+          <div class="logo">
+            <a href= "{% url 'index' %}">
+              <h1>welcome to <strong>Sbeam</strong></h1>
+            </a>
+          </div>
+          <div class="header-in">
+            <ul class="icon1 sub-icon1">
+                {% if user.is_authenticated %}
+                  {% if user.profile.usertype %}
+                  <li>
+                      <a href="{% url 'index_orderItem' request.user.store.slug %}"> MY ORDER</a>
+                  </li>
+                  <li>
+                      <a href="{{request.user.store.get_list_product_url}}"> LIST PRO</a>
+                  </li>
+                  <li>
+                      <a href="{{request.user.store.get_add_product_url}}"> ADD PRO</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'edit_store' %}">EDIT STORE</a>
+                  </li>
+                  {% else %}
+                  <li>
+                      <a href="{% url 'index_cart'%}"> SHOPPING CART</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'index_order'%}"> MY ORDER</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'edit_user' %}"> EDIT INFORMATION</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'index_product_want' %}">WISH_LIST</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'list_store'%}">STORE LIST</a>
+                  </li>
+                  <li>
+                      <a href="{% url 'index_product_visit'%}">FOOTPRINTS</a>
+                  </li>
+                  {% endif %}
+                  {% else %}
+                  {% endif %}
+            </ul>
+          </div>
+          <div class="clearfix"> </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-bottom-in">
+      <div class="container">
+        <div class="header-bottom-on">
+          <p class="wel">
+            {% if user.is_authenticated %}
+            Welcome {{user.username}}, click to <a href="{% url 'logout_user' %}">logout</a>
+            {% else %}
+            Welcome visitor , you can <a href="{% url 'login_user' %}">login</a> or <a href="{% url 'register_user' %}">create an account.</a>
+            {% endif %}
+
+          </p>
+          <div class="header-can">
+
+             <p class="wel"> <a href="{% url 'search_index'%}">click here to search </a></p>
+
+            <div class="clearfix"> </div>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+      <p>
+        {% if user.is_authenticated %}
+          {% if user.profile.usertype %}
+            your money is {{user.store.money}}
+          {% else %}
+            your money is {{user.profile.money}}
+          {% endif %}
+        {% endif%}
+      </p>
+    <section id="content">{% block content %}{% endblock %}</section>
+    <div class="clearfix"></div>
+  </div>
+  <div class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="col-md-4 footer-in">
+          <h4><i> </i>Suspendisse sed</h4>
+          <p>Aliquam dignissim porttitor tortor non fermentum. Curabitur in magna lectus. Duis sed eros diam. Lorem ipsum dolor sit amet, consectetur.</p>
+        </div>
+        <div class="col-md-4 footer-in">
+          <h4><i class="cross"> </i>Suspendisse sed</h4>
+          <p>Aliquam dignissim porttitor tortor non fermentum. Curabitur in magna lectus. Duis sed eros diam. Lorem ipsum dolor sit amet, consectetur.</p>
+        </div>
+        <div class="col-md-4 footer-in">
+          <h4><i class="down"> </i>Suspendisse sed</h4>
+          <p>Aliquam dignissim porttitor tortor non fermentum. Curabitur in magna lectus. Duis sed eros diam. Lorem ipsum dolor sit amet, consectetur.</p>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <!---->
+    <div class="footer-middle">
+      <div class="container">
+        <div class="footer-middle-in">
+          <h6>About us</h6>
+          <p>Suspendisse sed accumsan risus. Curabitur rhoncus, elit vel tincidunt elementum, nunc urna tristique nisi, in interdum libero magna tristique ante. adipiscing varius. Vestibulum dolor lorem.</p>
+        </div>
+        <div class="footer-middle-in">
+          <h6>Information</h6>
+          <ul>
+            <li>
+              <a href="#">About Us</a>
+            </li>
+            <li>
+              <a href="#">Delivery Information</a>
+            </li>
+            <li>
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li>
+              <a href="#">Terms &amp; Conditions</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-middle-in">
+          <h6>Customer Service</h6>
+          <ul>
+            <li>
+              <a href="#">Contact Us</a>
+            </li>
+            <li>
+              <a href="#">Returns</a>
+            </li>
+            <li>
+              <a href="#">Site Map</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-middle-in">
+          <h6>My Account</h6>
+          <ul>
+            <li>
+              <a href="#">My Account</a>
+            </li>
+            <li>
+              <a href="#">Order History</a>
+            </li>
+            <li>
+              <a href="#">Wish List</a>
+            </li>
+            <li>
+              <a href="#">Newsletter</a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-middle-in">
+          <h6>Extras</h6>
+          <ul>
+            <li>
+              <a href="#">Brands</a>
+            </li>
+            <li>
+              <a href="#">Gift Vouchers</a>
+            </li>
+            <li>
+              <a href="#">Affiliates</a>
+            </li>
+            <li>
+              <a href="#">Specials</a>
+            </li>
+          </ul>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <p class="footer-class">Copyright © 2017.Company name All rights reserved.By
+      <a href="http://www.736891410.qqzone.com/" target="_blank" title="模板之家">Li and Zhang</a>
+    </p>
+    <script type="text/javascript">
+      $(document).ready(function() {
+      							/*
+      							var defaults = {
+      					  			containerID: 'toTop', // fading element id
+      								containerHoverID: 'toTopHover', // fading element hover id
+      								scrollSpeed: 1200,
+      								easingType: 'linear'
+      					 		};
+      							*/
+
+      							$().UItoTop({ easingType: 'easeOutQuart' });
+
+      						});
+    </script>
+    <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+  </div>
+</body>
+
+</html>

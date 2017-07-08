@@ -1,35 +1,38 @@
-{% extends 'base.html' %}
+{% extends 'store_base.html' %}
 {% block content %}
-<div id="main" class="deliver_orderItem">
+<div>
+  <h2 class="account-in">Deliver_Item</h2>
+</div>
+  <h2 class="account-in">请确认用户信息</h2>
   <table class="item">
     <thead>
         <tr>
-          <th>name</th>
-          <th>email</th>
-          <th>address</th>
-          <th>postal code</th>
-          <th>city</th>
-          <th>message</th>
-          <th>create</th>
-          <th>quantity</th>
-          <th>total money</th>
+          <th width="100" height = "50">name</th>
+          <th width="150">email</th>
+          <th width="80">address</th>
+          <th width="100">postal code</th>
+          <th width="100">city</th>
+          <th width="100">message</th>
+          <th width="100">create</th>
+          <th width="100">quantity</th>
+          <th width="100">total money</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-          <td>{{order.name}}</td>
-          <td>{{order.email}}</td>
-          <td>{{order.address}}</td>
-          <td>{{order.postal_code}}</td>
-          <td>{{order.city}}</td>
-          <td>{{order.message}}</td>
-          <td>{{order.created}}</td>
-          <td>{{orderItem.quantity}}</td>
-          <td>{{orderItem.get_cost}}</td>
+          <td width="100">{{order.name}}</td>
+          <td width="150">{{order.email}}</td>
+          <td width="80">{{order.address}}</td>
+          <td width="100">{{order.postal_code}}</td>
+          <td width="100">{{order.city}}</td>
+          <td width="100">{{order.message}}</td>
+          <td width="100">{{order.created}}</td>
+          <td width="100">{{orderItem.quantity}}</td>
+          <td width="100">{{orderItem.get_cost}}</td>
         </tr>
     </tbody>
   </table>
-</div>
+
 <p>click here to <a href="{% url 'deliver_item_done' orderItem.id%}">deliver</a></p>
 <p>click here to <a href="{% url 'index_orderItem' orderItem.store.slug%}">return</a></p>
 {% endblock %}

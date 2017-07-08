@@ -1,17 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'store_base.html' %}
 {% block content %}
-<div id="main" class="index_orderItem">
-  <table class="item">
+<div>
+  <h2 class="account-in">all order are here</h2>
+</div>
+  <table class="cart">
     <thead>
         <tr>
-          <th>Userinfo</th>
-          <th>Product</th>
-          <th>Quantity</th>
-          <th>Unit price</th>
-          <th>Price</th>
-          <th>Deliver</th>
-          <th>Recieve</th>
-          <th>Detail</th>
+          <th width="100">Userinfo</th>
+          <th width="100">Product</th>
+          <th width="100">Quantity</th>
+          <th width="100">Unit price</th>
+          <th width="100">Price</th>
+          <th width="100">Deliver</th>
+          <th width="100">Recieve</th>
+          <th width="100">Detail</th>
           <th>Reply</th>
         </tr>
     </thead>
@@ -19,28 +21,28 @@
       {% for item in orderItems %}
           {% with product=item.product %}
               <tr>
-                  <td>{{item.user.username}}</td>
-                  <td><a href="{{product.get_detail_product_url}}">{{ product.name }}</a></td>
-                  <td>{{ item.quantity}}</td>
-                  <td class="num">${{ item.price }}</td>
-                  <td class="num">${{ item.get_cost }}</td>
-                  <td>{% if item.delivered%}
+                  <td width="100" height = "50">{{item.user.username}}</td>
+                  <td width="100"><a href="{{product.get_detail_product_url}}">{{ product.name }}</a></td>
+                  <td width="100">{{ item.quantity}}</td>
+                  <td width="100" class="num">${{ item.price }}</td>
+                  <td width="100" class="num">${{ item.get_cost }}</td>
+                  <td width="100">{% if item.delivered%}
                       delivered
                       {% else %}
-                      <form action="{% url 'deliver_item' item.id%}">
-                        <input type="submit" value="deliver it">
+                      <form action="{% url 'deliver_item' item.id%}" >
+                        <input type="submit" value="deliver it" >
                       </form>
                       {%endif%}
                   </td>
-                  <td>{% if item.recieved%}recieved{% else %}unrecieved{%endif%}
+                  <td width="100">{% if item.recieved%}recieved{% else %}unrecieved{%endif%}
                   </td>
-                  <td><a href="{% url 'detail_item' item.id%}">more</a></td>
-                  <td>
+                  <td width="100"><a href="{% url 'detail_item' item.id%}">more</a></td>
+                  <td width="100">
                       {% if item.commented %}
                         {% if item.replied %}
                         <a href="{% url 'revision_reply' item.id%}">reversion reply</a>
                         {% else %}
-                        <a href="{% url 'reply_item' item.id%}">reply</a>
+                        <a href="{% url 'reply_item' item.id%}">can reply</a>
                         {% endif %}
                       {% else %}
                         can't reply
@@ -50,5 +52,5 @@
       {% endfor %}
     </tbody>
   </table>
-</div>
+  </br></br></br></br>
 {% endblock %}

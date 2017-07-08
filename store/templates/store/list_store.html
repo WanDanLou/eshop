@@ -1,9 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'store_base.html' %}
+{% load static %}
 {% block content %}
+<h2 class="account-in"> All store is here </h2>
 <div id="main" class="store-list">
   {% for store in stores %}
     <div class="item">
-        <a href="{{store.get_list_product_url}}">{{store.name}}</a>
+      <img width="100" height="100" src="{% if store.photo %}{{ store.photo.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+      <a href="{{store.get_list_product_url}}"><h4><strong>{{store.name}}</strong></h4></a>
+      <p>创建在：{{store.created}}</p>
+      <p>描述：{{store.description}}</p>
     </div>
   {% endfor %}
 </div>

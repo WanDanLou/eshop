@@ -1,23 +1,47 @@
-{% extends 'base.html' %}
+{% extends 'store_base.html' %}
+{% load static%}
 {% block content %}
   <div>
-      <form method="post" action = "{% url 'search_index' %}" >
+      <form method="post" action = "{% url 'search_index' %}" class = "account">
           {% csrf_token %}
           {{ form.as_p }}
           <p><input type="submit" value="search"></p>
       </form>
   </div>
+  <h2 class = "account-in"> All you want is here </h2>
   <div>
     {% for store in stores %}
       <div class="item">
-          <a href="{{store.get_list_product_url}}">{{store.name}}</a>
+        <img width="50" height="50" src="{% if store.photo %}{{ store.photo.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+        <a href="{{store.get_list_product_url}}">{{store.name}}</a>
       </div>
     {% endfor %}
-    {% for product in products %}
-        <div class="item">
-            <a href="{{product.get_detail_product_url}}">{{ product.name }}</a>
-            {{product.store.name}}
-        </div>
-    {% endfor %}
+    <table class="cart">
+              <thead>
+                  <tr>
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Store</th>
+                      <th>Price</th>
+                      <th>Discount?</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for product in products %}
+                <tr>
+                    <td width="250">
+                        <a href="{{product.get_detail_product_url}}">
+                            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" width = "200" height="200">
+                        </a>
+                    </td>
+                    <td width="200"><a href="{{product.get_detail_product_url}}">{{ product.name }}</a></td>
+                    <td width="200">{{product.store.name}}</td>
+                    <td width="200"> $ {{product.price}}</td>
+                    <td width="200"> {%if product.discounted%}<strong>正在打折!!!</strong> {%else%} No{%endif%}</td>
+                </tr>
+            </tbody>
+        {% endfor %}
+        </table>
+</br></br>
   </div>
 {% endblock %}

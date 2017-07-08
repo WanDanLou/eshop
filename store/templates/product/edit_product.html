@@ -1,16 +1,19 @@
-{% extends 'base.html'%}
+{% extends 'store_base.html'%}
 {% block content%}
 <div>
   {% include 'messages.html' %}
-  <h1>Now edit your Product</h1>
-    <form method="post"action = "{{product.get_edit_product_url}}" enctype="multipart/form-data">
+  <h2 class = "account-in">Now edit your Product</h2>
+    <form method="post"action = "{{product.get_edit_product_url}}" enctype="multipart/form-data" class = "account">
         {% csrf_token %}
         {{ form.as_p }}
+        当前分类{{product.category}}
+        {{category_form.as_p}}
+        当前价格{{product.price}}
         {{discount_form.as_p}}
         <p><input type="submit" value="edit"></p>
     </form>
     <p>click here to  <a href="{{product.get_detail_product_url}}">return detail</a></p>
     <p>click here to  <a href="{{product.store.get_list_product_url }}">return list</a></p>
-    <p>click here to  <a href="{{product.store.get_index_store_url }}">return store</a></p>
+    <p>click here to  <a href="{% url 'index' %}">index</a></p>
 </div>
 {% endblock %}

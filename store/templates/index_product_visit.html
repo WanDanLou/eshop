@@ -1,0 +1,32 @@
+{% extends 'store_base.html' %}
+{% load static %}
+{% block content %}
+<h2 class = "account-in"> All you want is here </h2>
+      <table class="cart">
+        {% for product in products %}
+          <thead>
+              <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Store</th>
+                  <th>Price</th>
+                  <th>Discount?</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <td width="250">
+                    <a href="{{ prouct.get_detail_product_url }}">
+                        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" width = "200" height="200">
+                    </a>
+                </td>
+                <td width="200"><a href="{{product.get_detail_product_url}}">{{ product.name }}</a></td>
+                <td width="200">{{product.store.name}}</td>
+                <td width="200"> $ {{product.price}}</td>
+                <td width="200"> {%if product.discounted%}<strong>正在打折!!!</strong> {%else%} No{%endif%}</td>
+            </tr>
+        </tbody>
+    {% endfor %}
+    </table>
+</br></br>
+{% endblock %}

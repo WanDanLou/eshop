@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <title>welcome</title>
     {% load static %}
-    <link href="{% static 'bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="{% static 'bootstrap/css/style.css'%}" rel="stylesheet" type="text/css" media="all">
+    <script src="{% static 'bootstrap/js/jquery.min.js'%}"></script>
+    <link href="{% static 'bootstrap/css/bootstrap.css'%}" rel="stylesheet" type="text/css" media="all">
   </head>
   <body>
     <p>
@@ -17,30 +19,12 @@
       {% endif%}
     </p>
     <div class="container">
-      <div class="header clearfix"><h2 class="text-muted"> sbeam</h2></div>
+
       <section id="content">{% block content %}{% endblock %}</section>
-      <footer class="footer"><p>&copy; 2017 sbeam</p></footer>
     </div>
       <nav>
-      <ul class="nav nav-pills pull-right">
-      {% if user.is_authenticated %}
-        {% if user.profile.usertype %}
-        <a href="{{user.store.get_index_store_url}}">index</a>
-        {% else %}
-        <a href="{% url 'index' %}">index</a>
-        {% endif %}
-        <li role="presentation">
-        <a href="{% url 'logout_user' %}">logout(<b>{{user.username}}</b>)</a>
-        </li>
-        <li role="presentation">
-          {% if user.profile.usertype%}
-          <a href="{% url 'edit_store' %}">edit store</a>
-          {% else %}
-          <a href="{% url 'edit_user' %}">edit user</a>
-          {% endif %}
-        </li>
-      {% else %}
-      <a href="{% url 'index' %}">index</a>
+      <ul class="nav nav-pills pull-left">
+
         <p>
         <li role="presentation">
         <a href="{% url 'login_user' %}">login_user</a>
@@ -57,7 +41,11 @@
         <a href="{% url 'register_store' %}">register_store</a>
         </li>
         </p>
-      {% endif %}
+        <p>
+        <li role="presentation">
+        <a href="{% url 'index' %}">Index</a>
+        </li>
+        </p>
       </ul>
       </nav>
   </body>

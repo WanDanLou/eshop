@@ -1,12 +1,12 @@
-{% extends "base.html" %}
+{% extends "store_base.html" %}
+{% load static %}
 {% block content %}
-    <p>Your order has been successfully completed.</p>
-        <p>Your order number is <stong>{{ order.id }}</stong></p>
-        <p>Your totalcost is <stong>{{ order.get_total_cost }}</stong></p>
-        <form method="post" action = "{% url 'pay_order_done' order.id %}">
+    <h2 class = "account-in">Your order has been successfully completed. </h2>
+    <h2 class = "account-in">Your order number is <stong>{{ order.id }}</stong></h2>
+    <h2 class = "account-in">Your totalcost is <stong>{{ order.get_total_cost }}</stong></h2>
+        <form method="post" action = "{% url 'pay_order_done' order.id %}" class = "account">
             <p>are you sure?<p>
               {% csrf_token %}
             <p><input type="submit" value="pay"></p>
         </form>
-        <p>click here to <a href="{% url 'index' %}">index</a></p>
 {% endblock%}
