@@ -3,15 +3,16 @@
 {% block content %}
 <h2 class = "account-in"> All you want is here </h2>
       <table class="cart">
-        {% for product in products %}
           <thead>
               <tr>
                   <th>Image</th>
                   <th>Name</th>
                   <th>Store</th>
                   <th>Price</th>
+                  <th>Discount?</th>
               </tr>
           </thead>
+          {% for product in products %}
           <tbody>
             <tr>
                 <td width="250">
@@ -22,11 +23,10 @@
                 <td width="200"><a href="{{product.get_detail_product_url}}">{{ product.name }}</a></td>
                 <td width="200">{{product.store.name}}</td>
                 <td width="200"> $ {{product.price}}</td>
-                {%if product.discounted%}<strong><strong>正在打折!!!</strong></strong>{%endif%}
+                <td width="200">{%if product.discounted%}<strong><strong>正在打折!!!</strong></strong>{%endif%}</td>
             </tr>
         </tbody>
-
-    {% endfor %}
+        {% endfor %}
     </table>
 </br></br>
 {% endblock %}

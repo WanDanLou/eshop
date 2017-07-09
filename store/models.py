@@ -26,10 +26,6 @@ class Store(models.Model):
     def get_add_product_url(self):
         return reverse('add_product', args=[self.slug])
     def get_list_product_url(self):
-        self.sort_created = True
-        self.sort_price = True
-        self.sort_name = True
-        self.sort_volume = True
         self.category_show = 0
         self.save()
         return reverse('list_product', args=[self.slug])

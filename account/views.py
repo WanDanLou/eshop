@@ -39,6 +39,8 @@ def login_user(request):
                         return render(request, 'account/login_user.html',
                                                 {'form': form, 'errors':"user is store"})
                     else:
+                        for product in user.product_visit.all():
+                            user.product_visit.remove(product)
                         auth.login(request, user)
                         return redirect('index')
                 else:
@@ -85,9 +87,9 @@ def register_user(request):
             if username_exists:
                 return render(request, 'account/register_user.html',
                                         {'form': form, 'errors':"username has existed"})
-            '''if User.objects.filter(email = cd['email']).exists():
+            if User.objects.filter(email = cd['email']).exists():
                 return render(request, 'account/register_user.html',
-                                    {'form': form, 'errors':"email has bee occupied"})'''
+                                    {'form': form, 'errors':"email has bee occupied"})
             new_user = User()
             new_user.username = cd['username']
             new_user.set_password(cd['password'])
